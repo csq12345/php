@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<script type="text/javascript"  src="https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/jquery/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+function showstring(varchar){
+	var namechar=$("#namechar").val();
+	$.get("http://localhost:8010/firstphp/test6.php?"+"namechar="+namechar,ajaxcallback);
+	}
+	
+	function ajaxcallback(data,status){
+		$("#namestring").attr("value",data);
+	}
+	
+	$(function (){
+	var divs=	$("div");
+	divs.each(function(){
+		$(this).css("display","none");
+	});
+	});
+</script>
+<div>
+<input id="namechar" type="text" />
+<input id="subbtn" type="button"  value="提交" onclick="showstring()"/>
+<input id="namestring" type="text"/>
+</div>
+</body>
+</html>
+
