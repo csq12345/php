@@ -49,15 +49,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'welcome';
+$route['default_controller'] = "welcome";
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 //自己加的route/////////////////////////////////////////////////////////
-$route["default_controller"]="pages/view";
-$route["(:any)"]="pages/view/$1";
+//$route["default_controller"]="Bolg";
+//$route["(:any)"]="pages/view/$1";
 
-$route["news/(:any)"]="news/view/$1";
-$route["news"]="news";
-$route["(:any)"]="pages/view/$1";
-$route["default_controller"]="pages/view";
+//$route["news/(:any)"]="news/view/$1";
+//$route["news"]="news";
+//$route["(:any)"]="pages/view/$1";
 /////////////////////////////////////////////////////////////////////

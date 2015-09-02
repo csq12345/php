@@ -1,4 +1,5 @@
 <?php
+header("content-Type: text/html; charset=gbk");
 /**
  * CodeIgniter
  *
