@@ -15,3 +15,13 @@
 margin-left: auto;
     margin-right: auto;
 }
+
+.block{
+    border-width: 1px;
+    border-style: inherit;
+    border-color: #40a50a;
+    position: absolute;
+
+    width: 128px;
+    height: 128px;
+}
