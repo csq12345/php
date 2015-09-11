@@ -1,3 +1,4 @@
+/*背景*/
 .backgroun{
     width: auto;
     height:800px;
@@ -5,23 +6,50 @@
     border-width: 2px;
     border-style: solid;
 }
-
+/*画板*/
 .canvas {
     width: 800px;
     height: 600px;
     border-color: brown;
     border-width: 2px;
     border-style: solid;
-margin-left: auto;
-    margin-right: auto;
-}
+    margin-left: 50px;
 
+}
+/*看板*/
+.ShowBoard{
+    width: 700px;
+    height: 500px;
+    border-color: #005da5;
+    border-width: 2px;
+    border-style: solid;
+    position: absolute;
+    top: 100px;
+    left: 100px;
+}
+/*图块*/
 .block{
     border-width: 1px;
     border-style: inherit;
     border-color: #40a50a;
     position: absolute;
-
     width: 128px;
     height: 128px;
+}
+
+
+/*图片*/
+.img{
+width: auto;
+    height: auto;
+    margin-left: 0px;
+    margin-top: 0px;
+    position: absolute;
+}
+
+.info{
+
+}
+.txt{
+    width: 50px;
 }

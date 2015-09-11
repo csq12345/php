@@ -1,64 +1,82 @@
 /**
  * Created by nn on 2015/9/6.
  */
-$(function(){
-    AddBlock(8,6);
+$(function () {
+
+    Initital();
+    AddBlock(8, 6);
 });
 
+var objShowboard, objCanvas,objBackground, objtxtmousedown, objtxtmouseup;//³£ÓÃ¶ÔÏó
+
+//³õÊ¼»¯
+function Initital() {
+    objCanvas =$("#canvas");
+    objBackground =$("#background");
+    objShowboard =$("#ShowBoard");
+    objShowboard.mousedown(BoardOnMouseDown);
+    objShowboard.mouseup(BoardOnMouseUp);
 
 
 
-//åˆ›å»ºæ•´ä¸ªç”»æ¿çš„å›¾ç‰‡å—
-function AddBlock(mx,my){
-    var bb=$(".baseblock");
-    for(var y=0;y<my;y++)
-    {
+    objtxtmousedown = $("#txtmousedown");
+    objtxtmouseup = $("#txtmouseup");
+}
 
-        for(var x=0;x<mx;x++)
-        {
+//´´½¨Í¼¿é
+function AddBlock(mx, my) {
+    var bb = $(".baseblock");
+    for (var y = 0; y < my; y++) {
 
-           // $("#canvas").append("<div id='block"+x+y+"' class='block' style='margin-left: "+mleft+"px;margin-top:"+mtop+"px'></div>");
-           var clonebb=bb.clone();
-            clonebb.attr("id","block"+x+y);
-            clonebb.attr("class","block");
-            $("#canvas").append( clonebb);
+        for (var x = 0; x < mx; x++) {
 
-            SetBlockLocation(x,y,clonebb);
+            // $("#canvas").append("<div id='block"+x+y+"' class='block' style='margin-left: "+mleft+"px;margin-top:"+mtop+"px'></div>");
+            var clonebb = bb.clone();//´´½¨Ô­Í¼¿é¸±±¾
+            clonebb.attr("id", "block" + x + y);
+            clonebb.attr("class", "block");
+            objCanvas.append(clonebb);
+
+            SetBlockLocation(x, y, clonebb);
         }
     }
 }
 
-//è®¾ç½®å›¾å—ä½ç½®
-//mx,myè®¾ç½®ä¸ºç¬¬å‡ è¡Œç¬¬å‡ å— block è¦è®¾çš„å›¾å—
-function SetBlockLocation(mx,my,block){
-    var mleft=mx*128;
-    var mtop=my*128;
+//ÉèÖÃÍ¼¿éÎ»ÖÃ//mx,myÎªÍ¼¿éÔÚ»­°åÖĞµÄÎ»ÖÃ Òª»»Ëã³ÉµãÎ»ÖÃ
+function SetBlockLocation(mx, my, block) {
+    var mleft = mx * 128;
+    var mtop = my * 128;
 
-    block.css("margin-left",mleft);
-    block.css("margin-top",mtop);
+    block.css("margin-left", mleft);
+    block.css("margin-top", mtop);
 }
 
 
-//ç”»æ¿ä¸ŠæŒ‰ä¸‹é¼ æ ‡
-function CanvasOnMouseDown()
-{
+var exMouseDown, eyMouseDown;//Êó±ê°´ÏÂÊÇµÄÎ»ÖÃ
+var mouseIsDown = false;//Êó±êÊÇ·ñ°´ÏÂ
+//Êó±ê°´ÏÂÊ±Ö´ĞĞ
+function BoardOnMouseDown(e) {
+    exMouseDown = e.offsetX;//»ñÈ¡Êó±ê°´ÏÂÎ»ÖÃ
+    eyMouseDown = e.offsetY;
+
+    objtxtmousedown.val(exMouseDown + " " + eyMouseDown);
+}
+
+
+var exMouseUp, eyMouseUp;
+//Êó±êÌ§ÆğÊ±
+function BoardOnMouseUp(e) {
+    exMouseUp = e.offsetX;//»ñÈ¡Êó±êÌ§ÆğÎ»ÖÃ
+    eyMouseUp = e.offsetY;
+
+    objtxtmouseup.val(exMouseUp + " " + eyMouseUp);
+}
+
+//Êó±êÒÆ¶¯Ê±
+function BoardOnMouseMove() {
 
 }
 
-//ç”»æ¿ä¸ŠæŠ¬èµ·é¼ æ ‡
-function CanvasOnMouseUp()
-{
-
-}
-
-//ç”»æ¿ä¸Šç§»åŠ¨é¼ æ ‡
-function CanvasOnMouseMove()
-{
-
-}
-
-//ç§»åŠ¨å›¾ç‰‡å—
-function MoveBlock()
-{
+//ÒÆ¶¯Í¼¿é
+function MoveBlock() {
 
 }
