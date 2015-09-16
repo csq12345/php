@@ -10,6 +10,7 @@
 <body>
 <div class="info">
     按下<input id="txtmousedown" class="txt" type="text"/>
+    移动<input id="txtmousemove" class="txt"  type="text"/>
     抬起<input id="txtmouseup" class="txt"  type="text"/>
 </div>
 <div class="backgroun" id="background" >
@@ -18,8 +19,11 @@
     <div id="ShowBoard" class="ShowBoard"></div>
 </div>
 <div>
-    <div class="baseblock">
+    <div class="baseblock" datax="" datay="">
         <img class="img" src="" alt="">
+        <p id="xy"></p>
+        <P id="offset"></P>
+        <P id="xyset"></P>
     </div>
 </div>
 
