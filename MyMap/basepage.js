@@ -14,7 +14,7 @@ var exMouseMove, eyMouseMove;
 var exMouseUp, eyMouseUp;
 var exMouseDown, eyMouseDown;//鼠标按下是的位置
 var mouseIsDown = false;//鼠标是否按下
-var canvasoffsetx=0,canvasoffsety=0;
+var canvasoffsetx=0,canvasoffsety=0;//画板当前移动位置
 //初始化
 function Initital() {
     objCanvas = $("#canvas");
@@ -55,23 +55,32 @@ function AddBlock(mx, my) {
     }
 }
 
-//设置图块位置//mx,my为图块在画板中的位置 要换算成点位置
+//设置图块位置//mx,my为图块在画板中的位置 要换算成点位置 offsetx offsety要移动的距离
 function SetBlockLocation(mx, my, block,offsetx,offsety) {
 
     //需要加上当前偏移和历史偏移
     var mleft =( mx * blockSize) +offsetx+canvasoffsetx;
     var mtop = (my * blockSize)+offsety+canvasoffsety ;
-    block.find("#offset").text(mleft+" "+mtop);
+    block.find("#offset").text(mleft+" "+mtop);//相对偏移
 
-    var dx=Math.floor( mleft/400);
-if(dx>0){
-    mleft=mleft-400*dx-100;
-}
+    //var dx=Math.floor( mleft/400);
+    //if(dx>0){
+    //    mleft=mleft-400*dx-100;
+    //}
+
+    //将相对位移换算成绝对位移
+
+   if(mleft>400)
+   {
+       mleft= (mleft-100)%300-100;
+   }
+
+
 
 
     block.css("margin-left", mleft);
     block.css("margin-top", mtop);
-    block.find("#xyset").text(mleft+" "+mtop);
+    block.find("#xyset").text(mleft+" "+mtop);//实际偏移
 }
 
 
@@ -108,8 +117,9 @@ function BoardOnMouseMove(e) {
     }
 }
 
-//移动图块
+//移动图块 movex movey 图块需要移动的距离
 function MoveBlock(movex, movey) {
+    //遍历所有图块 逐个移动
     objCanvas.children().each(function () {
         var datax = $(this).attr("datax");
         var datay = $(this).attr("datay");
