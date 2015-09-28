@@ -28,6 +28,12 @@
     top: 200px;
     left: 200px;
 }
+.ShowBoard1{
+    width: 400px;
+
+}.ShowBoard2{
+     width: 900px;
+ }
 /*图块*/
 .block{
     border-width: 1px;
