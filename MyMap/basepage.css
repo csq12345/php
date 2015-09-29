@@ -46,11 +46,12 @@
 
 /*图片*/
 .img{
-width: auto;
-    height: auto;
+width: 100px;
+    height: 100px;
     margin-left: 0px;
     margin-top: 0px;
     position: absolute;
+    z-index: -10;
 }
 
 .info{
@@ -58,4 +59,9 @@ width: auto;
 }
 .txt{
     width: 50px;
+}
+.p{
+    height: 5px;
+    font-size: 10px;
+
 }

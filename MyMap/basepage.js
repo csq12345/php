@@ -8,7 +8,7 @@ $(function () {
 });
 
 var blockSize = 100;//图块大小
-var xblockcount = 5, yblockcoun = 4;//图块矩阵大小
+var xblockcount = 5, yblockcount = 4;//图块矩阵大小
 var objShowboard, objCanvas, objBackground, objtxtmousedown, objtxtmouseup, objtxtmousemove;//常用对象
 var exMouseMove, eyMouseMove;
 var exMouseUp, eyMouseUp;
@@ -30,7 +30,7 @@ function Initital() {
     objtxtmousemove = $("#txtmousemove");
 
 
-    AddBlock(xblockcount, yblockcoun);
+    AddBlock(xblockcount, yblockcount);
 }
 
 //创建图块
@@ -51,6 +51,11 @@ function AddBlock(mx, my) {
             objCanvas.append(clonebb);
 
             SetBlockLocation(x, y, clonebb, 0, 0);
+
+            if(y==0)
+            {
+                clonebb.find(".img").attr("src","googlemap/"+x+".png");
+            }
         }
     }
 }
@@ -63,26 +68,40 @@ function SetBlockLocation(mx, my, block, offsetx, offsety) {
     var mtop = (my * blockSize) + offsety + canvasoffsety;
     block.find("#offset").text(mleft + " " + mtop);//相对偏移
 
-    //var dx=Math.floor( mleft/400);
-    //if(dx>0){
-    //    mleft=mleft-400*dx-100;
-    //}
+//计算图块的位置倍数
+    var oldxMultiple= block.attr("xmultiple");
+    var oldyMultiple=block.attr("ymultiple");
+    var xMultiple=Math.floor((mleft + 150) / (xblockcount * blockSize));
+    var yMultiple=Math.floor((mtop + 150) / (yblockcount * blockSize));
+    block.attr("xmultiple",xMultiple);
+    block.attr("ymultiple",yMultiple);
+    block.find("#xyM").text(xMultiple+" "+yMultiple);
 
     //将相对位移换算成绝对位移
     if (mleft > 0) {
-        mleft = (mleft + 150) % (5 * blockSize) - 150;
+        mleft = (mleft + 150) % (xblockcount * blockSize) - 150;
     } else if (mleft < -150) {
-        mleft = (mleft + 150) % (5 * blockSize) + 350;
+        mleft = (mleft + 150) % (xblockcount * blockSize) + 350;
     }
     if (mtop > 0) {
-        mtop = (mtop + 150) % (4 * blockSize) - 150;
+        mtop = (mtop + 150) % (yblockcount * blockSize) - 150;
     } else if (mtop < -150) {
-        mtop = (mtop + 150) % (4 * blockSize) + 250;
+        mtop = (mtop + 150) % (yblockcount * blockSize) + 250;
     }
+
 
     block.css("margin-left", mleft);
     block.css("margin-top", mtop);
     block.find("#xyset").text(mleft + " " + mtop);//实际偏移
+
+
+    if(oldxMultiple!=xMultiple
+        ||oldyMultiple!=yMultiple)
+    {
+        //如果倍数与原来不同 说明图块需要轮转
+        OnBolckChangeMultiple(block);
+    }
+
 }
 
 
@@ -129,4 +148,9 @@ function MoveBlock(movex, movey) {
     });
 
     //SetBlockLocation(0,0, $("#block00"),movex,movey);
+}
+
+//当图块倍数发生变化时
+function OnBolckChangeMultiple(block){
+
 }
