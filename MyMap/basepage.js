@@ -8,7 +8,7 @@ $(function () {
 });
 
 var blockSize = 100;//图块大小
-
+var xblockcount = 5, yblockcoun = 4;//图块矩阵大小
 var objShowboard, objCanvas, objBackground, objtxtmousedown, objtxtmouseup, objtxtmousemove;//常用对象
 var exMouseMove, eyMouseMove;
 var exMouseUp, eyMouseUp;
@@ -30,7 +30,7 @@ function Initital() {
     objtxtmousemove = $("#txtmousemove");
 
 
-    AddBlock(5, 4);
+    AddBlock(xblockcount, yblockcoun);
 }
 
 //创建图块
@@ -71,17 +71,14 @@ function SetBlockLocation(mx, my, block, offsetx, offsety) {
     //将相对位移换算成绝对位移
     if (mleft > 0) {
         mleft = (mleft + 150) % (5 * blockSize) - 150;
-    }
-    if (mleft < 0) {
-        mleft = (mleft + 650) % (5 * blockSize) - 150;
+    } else if (mleft < -150) {
+        mleft = (mleft + 150) % (5 * blockSize) + 350;
     }
     if (mtop > 0) {
         mtop = (mtop + 150) % (4 * blockSize) - 150;
+    } else if (mtop < -150) {
+        mtop = (mtop + 150) % (4 * blockSize) + 250;
     }
-    if (mtop < 0) {
-        mtop = (mtop + 550) % (4 * blockSize) - 150;
-    }
-
 
     block.css("margin-left", mleft);
     block.css("margin-top", mtop);
