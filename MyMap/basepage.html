@@ -12,6 +12,10 @@
     按下<input id="txtmousedown" class="txt" type="text"/>
     移动<input id="txtmousemove" class="txt"  type="text"/>
     抬起<input id="txtmouseup" class="txt"  type="text"/>
+    <input type="button" value="放大" onclick="SetZoomAdd();"/>
+    <input type="button" value="缩小" onclick="SetZoomMinus();"/>
+    <input type="button" value="清除" onclick="ClearBlock();"/>
+    <input type="button" value="重绘" onclick="ReDraw();"/>
 </div>
 <div class="backgroun" id="background" >
 
@@ -21,13 +25,14 @@
     <!--<div id="ShowBoard2" class="ShowBoard ShowBoard2"></div>-->
     <div id="ShowBoard" class="ShowBoard"></div>
 </div>
-<div>
+<div style="display: none">
     <div class="baseblock" datax="" datay="" xmultiple="0" ymultiple="0">
         <img class="img" src="" alt="">
         <p id="xy" class="p"></p>
         <P id="offset" class="p"></P>
         <P id="xyset" class="p"></P>
         <p id="xyM" class="p"></p>
+        <p id="xyimg" class="p"></p>
     </div>
 </div>
 

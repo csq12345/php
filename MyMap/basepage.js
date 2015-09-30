@@ -7,14 +7,20 @@ $(function () {
 
 });
 
-var blockSize = 100;//图块大小
-var xblockcount = 5, yblockcount = 4;//图块矩阵大小
+var blockSize = 250;//图块大小
+var xblockcount = 6, yblockcount = 5;//图块矩阵大小
 var objShowboard, objCanvas, objBackground, objtxtmousedown, objtxtmouseup, objtxtmousemove;//常用对象
 var exMouseMove, eyMouseMove;
 var exMouseUp, eyMouseUp;
 var exMouseDown, eyMouseDown;//鼠标按下是的位置
 var mouseIsDown = false;//鼠标是否按下
 var canvasoffsetx = 0, canvasoffsety = 0;//画板当前移动位置
+var nowzoom = 4;//当前缩放级别
+//图片文件夹路径
+var picpath = new Array(
+    "P:/TEMP/googlepic/"
+     );
+http://mt1.google.cn/vt?pb=!1m4!1m3!1i6!2i50!3i24!2m3!1e0!2sm!3i323238179!3m9!2szh-Hans-CN!3sCN!5e78!12m1!1e47!12m3!1e37!2m1!1ssmartmaps!4e0
 //初始化
 function Initital() {
     objCanvas = $("#canvas");
@@ -52,12 +58,21 @@ function AddBlock(mx, my) {
 
             SetBlockLocation(x, y, clonebb, 0, 0);
 
-            if(y==0)
-            {
-                clonebb.find(".img").attr("src","googlemap/"+x+".png");
-            }
+
+            SetBlockImg(clonebb, nowzoom);
+
         }
     }
+}
+
+function ReDraw()
+{
+    AddBlock(xblockcount, yblockcount);
+}
+
+function ClearBlock()
+{
+    objCanvas.text("");
 }
 
 //设置图块位置//mx,my为图块在画板中的位置 要换算成点位置 offsetx offsety要移动的距离
@@ -69,24 +84,27 @@ function SetBlockLocation(mx, my, block, offsetx, offsety) {
     block.find("#offset").text(mleft + " " + mtop);//相对偏移
 
 //计算图块的位置倍数
-    var oldxMultiple= block.attr("xmultiple");
-    var oldyMultiple=block.attr("ymultiple");
-    var xMultiple=Math.floor((mleft + 150) / (xblockcount * blockSize));
-    var yMultiple=Math.floor((mtop + 150) / (yblockcount * blockSize));
-    block.attr("xmultiple",xMultiple);
-    block.attr("ymultiple",yMultiple);
-    block.find("#xyM").text(xMultiple+" "+yMultiple);
+    var oldxMultiple = block.attr("xmultiple");
+    var oldyMultiple = block.attr("ymultiple");
+
+    var borderxy = blockSize + blockSize / 2;//移动的边框大小，为块大小的一半 当超过这个时 才出发板块交替
+
+    var xMultiple = Math.floor((mleft + borderxy) / (xblockcount * blockSize));
+    var yMultiple = Math.floor((mtop + borderxy) / (yblockcount * blockSize));
+    block.attr("xmultiple", xMultiple);
+    block.attr("ymultiple", yMultiple);
+    block.find("#xyM").text(xMultiple + " " + yMultiple);
 
     //将相对位移换算成绝对位移
     if (mleft > 0) {
-        mleft = (mleft + 150) % (xblockcount * blockSize) - 150;
-    } else if (mleft < -150) {
-        mleft = (mleft + 150) % (xblockcount * blockSize) + 350;
+        mleft = (mleft + borderxy) % (xblockcount * blockSize) - borderxy;
+    } else if (mleft < -borderxy) {
+        mleft = (mleft + borderxy) % (xblockcount * blockSize) + (xblockcount * blockSize - (borderxy));
     }
     if (mtop > 0) {
-        mtop = (mtop + 150) % (yblockcount * blockSize) - 150;
-    } else if (mtop < -150) {
-        mtop = (mtop + 150) % (yblockcount * blockSize) + 250;
+        mtop = (mtop + borderxy) % (yblockcount * blockSize) - borderxy;
+    } else if (mtop < -borderxy) {
+        mtop = (mtop + borderxy) % (yblockcount * blockSize) + (yblockcount * blockSize - (borderxy));
     }
 
 
@@ -95,9 +113,8 @@ function SetBlockLocation(mx, my, block, offsetx, offsety) {
     block.find("#xyset").text(mleft + " " + mtop);//实际偏移
 
 
-    if(oldxMultiple!=xMultiple
-        ||oldyMultiple!=yMultiple)
-    {
+    if (oldxMultiple != xMultiple
+        || oldyMultiple != yMultiple) {
         //如果倍数与原来不同 说明图块需要轮转
         OnBolckChangeMultiple(block);
     }
@@ -151,6 +168,33 @@ function MoveBlock(movex, movey) {
 }
 
 //当图块倍数发生变化时
-function OnBolckChangeMultiple(block){
+function OnBolckChangeMultiple(block) {
+    SetBlockImg(block, nowzoom);
+}
 
+function SetBlockImg(block, zoom) {
+    var xMultiple = block.attr("xmultiple");
+    var yMultiple = block.attr("ymultiple");
+    var datax = block.attr("datax") - xblockcount * xMultiple;
+    var datay = block.attr("datay") - yblockcount * yMultiple;
+
+    var path = picpath[0] + "/" + zoom + "/" + zoom + "_" + datax + "_" + datay + ".png";
+    block.find(".img").attr("src", path);
+    block.find("#xyimg").text(zoom + "_" + datax + "_" + datay);
+}
+//放大
+function SetZoomAdd() {
+    if (nowzoom < 10) {
+        nowzoom++;
+        ClearBlock();
+        ReDraw();
+    }
+}
+//缩小
+function SetZoomMinus() {
+    if (nowzoom > 4) {
+        nowzoom--;
+        ClearBlock();
+        ReDraw();
+    }
 }
