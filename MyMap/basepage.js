@@ -16,28 +16,50 @@ var exMouseDown, eyMouseDown;//鼠标按下是的位置
 var mouseIsDown = false;//鼠标是否按下
 var canvasoffsetx = 0, canvasoffsety = 0;//画板当前移动位置
 var nowzoom = 4;//当前缩放级别
+
+var zoom = new Array(
+    {z: 4, mx: 15, my: 15},
+    {z: 5, mx: 15, my: 15},
+    {z: 6, mx: 15, my: 15},
+    {z: 7, mx: 15, my: 15},
+    {z: 8, mx: 15, my: 15},
+    {z: 9, mx: 15, my: 15},
+    {z: 10, mx: 15, my: 15},
+    {z: 11, mx: 15, my: 15},
+    {z: 12, mx: 15, my: 15},
+    {z: 13, mx: 15, my: 15},
+    {z: 14, mx: 15, my: 15},
+    {z: 15, mx: 15, my: 15},
+    {z: 16, mx: 15, my: 15},
+    {z: 17, mx: 15, my: 15},
+    {z: 18, mx: 15, my: 15},
+    {z: 19, mx: 15, my: 15},
+    {z: 20, mx: 15, my: 15},
+    {z: 21, mx: 15, my: 15}
+);
+
 //图片文件夹路径
 var picpath = new Array(
     "P:/TEMP/googlepic/"
-     );
+);
 http://mt1.google.cn/vt?pb=!1m4!1m3!1i6!2i50!3i24!2m3!1e0!2sm!3i323238179!3m9!2szh-Hans-CN!3sCN!5e78!12m1!1e47!12m3!1e37!2m1!1ssmartmaps!4e0
 //初始化
-function Initital() {
-    objCanvas = $("#canvas");
-    objBackground = $("#background");
-    objShowboard = $("#ShowBoard");
-    objShowboard.mousemove(BoardOnMouseMove);
-    objShowboard.mousedown(BoardOnMouseDown);
-    objShowboard.mouseup(BoardOnMouseUp);
+    function Initital() {
+        objCanvas = $("#canvas");
+        objBackground = $("#background");
+        objShowboard = $("#ShowBoard");
+        objShowboard.mousemove(BoardOnMouseMove);
+        objShowboard.mousedown(BoardOnMouseDown);
+        objShowboard.mouseup(BoardOnMouseUp);
 
 
-    objtxtmousedown = $("#txtmousedown");
-    objtxtmouseup = $("#txtmouseup");
-    objtxtmousemove = $("#txtmousemove");
+        objtxtmousedown = $("#txtmousedown");
+        objtxtmouseup = $("#txtmouseup");
+        objtxtmousemove = $("#txtmousemove");
 
 
-    AddBlock(xblockcount, yblockcount);
-}
+        AddBlock(xblockcount, yblockcount);
+    }
 
 //创建图块
 function AddBlock(mx, my) {
@@ -65,13 +87,11 @@ function AddBlock(mx, my) {
     }
 }
 
-function ReDraw()
-{
+function ReDraw() {
     AddBlock(xblockcount, yblockcount);
 }
 
-function ClearBlock()
-{
+function ClearBlock() {
     objCanvas.text("");
 }
 
@@ -167,20 +187,32 @@ function MoveBlock(movex, movey) {
     //SetBlockLocation(0,0, $("#block00"),movex,movey);
 }
 
+
+function GetZoom(zoomlevel) {
+    return zoom[zoomlevel - 4];
+}
+
 //当图块倍数发生变化时
 function OnBolckChangeMultiple(block) {
     SetBlockImg(block, nowzoom);
 }
 
-function SetBlockImg(block, zoom) {
+function SetBlockImg(block, zoomlevel) {
     var xMultiple = block.attr("xmultiple");
     var yMultiple = block.attr("ymultiple");
     var datax = block.attr("datax") - xblockcount * xMultiple;
     var datay = block.attr("datay") - yblockcount * yMultiple;
 
-    var path = picpath[0] + "/" + zoom + "/" + zoom + "_" + datax + "_" + datay + ".png";
+    if (datax < 0 || datay < 0) {
+        block.find(".img").attr("src", picpath[0] + "0.png");
+        return;
+    }
+    var zm = GetZoom(zoomlevel);
+    var mx = (zm.my + 1) * (block.attr("datax") + 1);
+    mx = Math.floor(mx / 1000);
+    var path = picpath[0] + "/" + zoomlevel + "_" + mx + "/" + zoomlevel + "_" + datax + "_" + datay + ".png";
     block.find(".img").attr("src", path);
-    block.find("#xyimg").text(zoom + "_" + datax + "_" + datay);
+    block.find("#xyimg").text(zoomlevel + "_" + datax + "_" + datay);
 }
 //放大
 function SetZoomAdd() {
