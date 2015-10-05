@@ -12,10 +12,16 @@
     按下<input id="txtmousedown" class="txt" type="text"/>
     移动<input id="txtmousemove" class="txt"  type="text"/>
     抬起<input id="txtmouseup" class="txt"  type="text"/>
+    位移<input id="txtcanvasmove" class="txt"  type="text"/>
+    画板按下<input id="txtcanvasdown" class="txt"  type="text"/>
     <input type="button" value="放大" onclick="SetZoomAdd();"/>
+    <input id="txtzoomlevel" class="txt"  type="text"/>
     <input type="button" value="缩小" onclick="SetZoomMinus();"/>
     <input type="button" value="清除" onclick="ClearBlock();"/>
     <input type="button" value="重绘" onclick="ReDraw();"/>
+    <input id="txtE" class="txten"  type="text"/>
+    <input id="txtN"  class="txten" type="text"/>
+    <input type="button" value="定位" onclick="tablocation();"/>
 </div>
 <div class="backgroun" id="background" >
 
@@ -28,11 +34,17 @@
 <div style="display: none">
     <div class="baseblock" datax="" datay="" xmultiple="0" ymultiple="0">
         <img class="img" src="" alt="">
+        <!--图块编号-->
         <p id="xy" class="p"></p>
+        <!--相对偏移-->
         <P id="offset" class="p"></P>
+        <!--实际偏移-->
         <P id="xyset" class="p"></P>
+        <!--偏移倍数-->
         <p id="xyM" class="p"></p>
-        <p id="xyimg" class="p"></p>
+        <!--图片名称-->
+        <!--<p id="xyimg" class="p"></p>-->
+
     </div>
 </div>
 

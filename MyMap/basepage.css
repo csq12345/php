@@ -1,36 +1,40 @@
 /*背景*/
-.backgroun{
+.backgroun {
     width: auto;
-    height:800px;
+    height: 800px;
     border-color: #ff0000;
     border-width: 2px;
     border-style: solid;
+    margin-top: 0px;
+    margin-left: 0px;
 }
+
 /*画板*/
 .canvas {
-    width: 10px;
-    height: 10px;
-    border-color: #30cddf;
+    width: 300px;
+    height: 300px;
+    border-color: #ff0000;
     border-width: 2px;
     border-style: inherit;
-    top: 50px;
-    left: 200px;
+    top: 100px;
+    left: 150px;
     position: absolute;
 }
+
 /*看板*/
-.ShowBoard{
-    width: 1000px;
-    height: 700px;
+.ShowBoard {
+    width: 600px;
+    height: 450px;
     border-color: #041cff;
     border-width: 2px;
     border-style: solid;
     position: absolute;
-    top: 50px;
-    left: 200px;
+    top: 100px;
+    left: 150px;
 }
 
 /*图块*/
-.block{
+.block {
     border-width: 1px;
     border-style: inherit;
     border-color: #dcdbd8;
@@ -38,28 +42,33 @@
 
 }
 
-
 /*图片*/
-.img{
-width: 250px;
-    height: 250px;
+.img {
+    width: 150px;
+    height: 150px;
     margin-left: 0px;
     margin-top: 0px;
     position: absolute;
-    z-index: -1;
+    z-index: -10;
 }
 
-.info{
+.info {
     border-color: #ff806f;
     border-style: solid;
+    background-color: darkgray;
     z-index: 5;
     position: relative;
 }
-.txt{
-    width: 50px;
+
+.txt {
+    width: 100px;
 }
-.p{
+.txten{
+    width:  50px;
+
+}
+.p {
     height: 5px;
     font-size: 10px;
-display: none;
+    display: none;
 }
