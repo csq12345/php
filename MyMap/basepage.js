@@ -175,16 +175,19 @@ function BoardOnMouseUp(e) {
 
     var zm = GetZoom(nowzoom);
 
-    var rpxx = (zm.mx + 1) / 2 * blockSize;//每东西半球总像素点
-    var rpxy = (zm.my + 1) / 2 * blockSize;//每南北半球总像素点
+    //var rpxx = (zm.mx + 1)  * blockSize;//每东西半球总像素点
+    //var rpxy = (zm.my + 1)  * blockSize;//每南北半球总像素点
+    var latitudeBlock = (-canvasoffsety + 300) / blockSize;
+    var longitudeBlock = (-canvasoffsetx + 300) / blockSize;
 
-        var no=-(-canvasoffsety + 300 - rpxy) / rpxy * 90
+    var lon = BlockToLongitude(longitudeBlock, nowzoom);
+    var lat = BlockToLatitude(latitudeBlock, nowzoom);
 
-    var sss=Math.(0.8);
-
-    $("#txtE").val((-canvasoffsetx + 300 - rpxx) / rpxx * 180);
-    $("#txtN").val(no);
+    $("#txtE").val(lon);//经度
+    $("#txtN").val(lat);//纬度
 }
+
+
 
 
 //鼠标移动时
@@ -282,16 +285,18 @@ function tablocation() {
     //$("#txtE").val((-canvasoffsetx+300-rpxx)/rpxx*180);
     //$("#txtN").val(-(-canvasoffsety+300-rpxy)/rpxy*180);
 
-    var zm=GetZoom(nowzoom);
+    $("#txtN").val(Math.acos(Evalue));
 
-    var rpxx = (zm.mx + 1) / 2 * blockSize;//每东西半球总像素点
-    var rpxy = (zm.my + 1) / 2 * blockSize;//每南北半球总像素点
-    if (Evalue > 0) {
-        canvasoffsetx =300- Evalue / 180 * rpxx - rpxx ;
-    }
-    if (Nvalue > 0) {
-        canvasoffsety = Nvalue / 90 * rpxy - rpxy + 300;
-    }
-    ClearBlock();
-    ReDraw();
+    //var zm=GetZoom(nowzoom);
+    //
+    //var rpxx = (zm.mx + 1) / 2 * blockSize;//每东西半球总像素点
+    //var rpxy = (zm.my + 1) / 2 * blockSize;//每南北半球总像素点
+    //if (Evalue > 0) {
+    //    canvasoffsetx =300- Evalue / 180 * rpxx - rpxx ;
+    //}
+    //if (Nvalue > 0) {
+    //    canvasoffsety = Nvalue / 90 * rpxy - rpxy + 300;
+    //}
+    //ClearBlock();
+    //ReDraw();
 }
