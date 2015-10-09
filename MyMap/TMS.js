@@ -17,13 +17,13 @@ function BlockToLatitude(y, zoom) {
 
 //经度转瓦片位置像素
 function LongitudeToBlock(x, zoom) {
-    var blockpx = ((x / Math.Pow(2.0, zoom) * 360.0) - 180.0);
+    var blockpx = (double)((x + 180.0) / 360.0 * Math.Pow(2.0, zoom));
     return blockpx;
 }
 //纬度转瓦片位置像素
 function LatitudeToBlock(y, zoom) {
-    var n = Math.PI - ((2.0 * Math.PI * y) / Math.Pow(2.0, zoom));
 
-    var blockpy = (180.0 / Math.PI * Math.Atan(Math.Sinh(n)));
+    var blockpy = (double)((1.0 - Math.Log(Math.Tan(y * Math.PI / 180.0) +
+        1.0 / Math.Cos(y * Math.PI / 180.0)) / Math.PI) / 2.0 * Math.Pow(2.0, zoom));
     return blockpy;
 }

@@ -42,6 +42,7 @@ var zoomarray = new Array(
 
 //图片文件夹路径
 var picpath = new Array(
+    "D:/temp/googlepic/",
     "E:/temp/googlepic/"
 );
 http://mt1.google.cn/vt?pb=!1m4!1m3!1i6!2i50!3i24!2m3!1e0!2sm!3i323238179!3m9!2szh-Hans-CN!3sCN!5e78!12m1!1e47!12m3!1e37!2m1!1ssmartmaps!4e0
@@ -242,19 +243,19 @@ function SetBlockImg(block, zoomlevel) {
     var zm = GetZoom(zoomlevel);
 
     if (datax > zm.mx || datay > zm.my) {
-        block.find(".img").attr("src", picpath[0] + "0.png");
+        block.find(".img").attr("src", picpath[0] +  "0.png");
         block.find("#xyimg").text(zoomlevel + "_" + datax + "_" + datay);
         return;
     }
-    var mx = (zm.my + 1) * (datax + 1);
+    var mx = (zm.my + 1) * (datax + 1);//分部文件夹编号
     mx = Math.floor(mx / 1000);
-    var path = picpath[0] + "/" + zoomlevel + "_" + mx + "/" + zoomlevel + "_" + datax + "_" + datay + ".png";
+    var path = picpath[0] + "/" + zoomlevel + "/" + zoomlevel + "_" + mx + "/" + zoomlevel + "_" + datax + "_" + datay + ".png";
     block.find(".img").attr("src", path);
     block.find("#xyimg").text(zoomlevel + "_" + mx + "/" + zoomlevel + "_" + datax + "_" + datay);
 }
 //放大
 function SetZoomAdd() {
-    if (nowzoom < 10) {
+    if (nowzoom < 21) {
         nowzoom++;
 
         canvasoffsetx = parseInt(canvasoffsetx * 2 - 300);
