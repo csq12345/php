@@ -18,7 +18,7 @@ var mouseIsDown = false;//鼠标是否按下
 var canvasoffsetx = 0, canvasoffsety = 0;//画板当前移动位置
 var initCanvasoffsetX = -1675, initCanvasoffsetY = -609;//初始画板移动位置
 var nowzoom = 4;//当前缩放级别
-
+var mt = 0;
 var zoomarray = new Array(
     {z: 4, mx: 15, my: 15},
     {z: 5, mx: 31, my: 31},
@@ -42,7 +42,9 @@ var zoomarray = new Array(
 
 //图片文件夹路径
 var picpath = new Array(
-    "D:/temp/googlepic/",
+    "D:/temp/googlepic/0",
+     "D:/temp/googlepic/1",
+    "D:/temp/googlepic/3",
     "E:/temp/googlepic/"
 );
 http://mt1.google.cn/vt?pb=!1m4!1m3!1i6!2i50!3i24!2m3!1e0!2sm!3i323238179!3m9!2szh-Hans-CN!3sCN!5e78!12m1!1e47!12m3!1e37!2m1!1ssmartmaps!4e0
@@ -249,7 +251,7 @@ function SetBlockImg(block, zoomlevel) {
     }
     var mx = (zm.my + 1) * (datax + 1);//分部文件夹编号
     mx = Math.floor(mx / 1000);
-    var path = picpath[0] + "/" + zoomlevel + "/" + zoomlevel + "_" + mx + "/" + zoomlevel + "_" + datax + "_" + datay + ".png";
+    var path = picpath[mt] + "/" + zoomlevel + "/" + zoomlevel + "_" + mx + "/" + zoomlevel + "_" + datax + "_" + datay + ".png";
     block.find(".img").attr("src", path);
     block.find("#xyimg").text(zoomlevel + "_" + mx + "/" + zoomlevel + "_" + datax + "_" + datay);
 }
@@ -300,4 +302,10 @@ function tablocation() {
     //}
     //ClearBlock();
     //ReDraw();
+}
+
+
+function changemaptype(maptype) {
+    mt = maptype;
+    ReDraw();
 }
