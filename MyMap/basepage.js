@@ -20,30 +20,30 @@ var initCanvasoffsetX = -1675, initCanvasoffsetY = -609;//初始画板移动位置
 var nowzoom = 4;//当前缩放级别
 var mt = 0;
 var zoomarray = new Array(
-    { z: 4, mx: 15, my: 15 },
-    { z: 5, mx: 31, my: 31 },
-    { z: 6, mx: 63, my: 63 },
-    { z: 7, mx: 127, my: 127 },
-    { z: 8, mx: 255, my: 255 },
-    { z: 9, mx: 511, my: 511 },
-    { z: 10, mx: 1023, my: 1023 },
-    { z: 11, mx: 2047, my: 2047 },
-    { z: 12, mx: 4095, my: 4095 },
-    { z: 13, mx: 8191, my: 8191 },
-    { z: 14, mx: 16383, my: 16383 },
-    { z: 15, mx: 32767, my: 32767 },
-    { z: 16, mx: 65535, my: 65535 },
-    { z: 17, mx: 131071, my: 131071 },
-    { z: 18, mx: 262143, my: 262143 },
-    { z: 19, mx: 524287, my: 524287 },
-    { z: 20, mx: 1048575, my: 1048575 },
-    { z: 21, mx: 2097151, my: 2097151 }
+    {z: 4, mx: 15, my: 15},
+    {z: 5, mx: 31, my: 31},
+    {z: 6, mx: 63, my: 63},
+    {z: 7, mx: 127, my: 127},
+    {z: 8, mx: 255, my: 255},
+    {z: 9, mx: 511, my: 511},
+    {z: 10, mx: 1023, my: 1023},
+    {z: 11, mx: 2047, my: 2047},
+    {z: 12, mx: 4095, my: 4095},
+    {z: 13, mx: 8191, my: 8191},
+    {z: 14, mx: 16383, my: 16383},
+    {z: 15, mx: 32767, my: 32767},
+    {z: 16, mx: 65535, my: 65535},
+    {z: 17, mx: 131071, my: 131071},
+    {z: 18, mx: 262143, my: 262143},
+    {z: 19, mx: 524287, my: 524287},
+    {z: 20, mx: 1048575, my: 1048575},
+    {z: 21, mx: 2097151, my: 2097151}
 );
 
 //图片文件夹路径
 var picpath = new Array(
     "D:/temp/googlepic/0",
-     "D:/temp/googlepic/1",
+    "D:/temp/googlepic/1",
     "D:/temp/googlepic/3",
     "E:/temp/googlepic/"
 );
@@ -68,13 +68,18 @@ http://mt1.google.cn/vt?pb=!1m4!1m3!1i6!2i50!3i24!2m3!1e0!2sm!3i323238179!3m9!2s
 
         //获取显示框大小
         var canvasheight = $("#canvas").css("height").replace("px", "");
-        var canvaswidth = $("#canvas").css("width").replace("px", "");;
+        var canvaswidth = $("#canvas").css("width").replace("px", "");
+        ;
 
         xblockcount = Math.floor(canvaswidth / blockSize) + 2;
         yblockcount = Math.floor(canvasheight / blockSize) + 2;
 
         //设置中心点
         SetCenterPoint(canvaswidth, canvasheight);
+
+        //绑定浏览器大小改变事件
+        window.onresize = OnWindowsSizeChanged;
+
         AddBlock(xblockcount, yblockcount);
     }
 
@@ -185,21 +190,23 @@ function BoardOnMouseUp(e) {
 
     objcanvasdown.val((exMouseUp - canvasoffsetx) + "," + (eyMouseUp - canvasoffsety));
 
-    var zm = GetZoom(nowzoom);
+    //获取当前中心位置的经纬度
+    var canvaswidth = $("#canvas").css("width").replace("px", "");
+    ;
+    var canvasheight = $("#canvas").css("height").replace("px", "");
 
-    //var rpxx = (zm.mx + 1)  * blockSize;//每东西半球总像素点
-    //var rpxy = (zm.my + 1)  * blockSize;//每南北半球总像素点
-    var latitudeBlock = (-canvasoffsety + 300) / blockSize;
-    var longitudeBlock = (-canvasoffsetx + 300) / blockSize;
 
+    var longitudeBlock = (canvaswidth / 2 - canvasoffsetx) / blockSize;
+    var latitudeBlock = (canvasheight / 2 - canvasoffsety ) / blockSize;
     var lon = BlockToLongitude(longitudeBlock, nowzoom);
     var lat = BlockToLatitude(latitudeBlock, nowzoom);
+
+
+    var ddddd = LongitudeToBlock(lon, nowzoom);
 
     $("#txtE").val(lon);//经度
     $("#txtN").val(lat);//纬度
 }
-
-
 
 
 //鼠标移动时
@@ -228,6 +235,50 @@ function MoveBlock(movex, movey) {
     //SetBlockLocation(0,0, $("#block00"),movex,movey);
 }
 
+//将地图移动到指定的偏移值
+function MoveMap(movex, movey) {
+    //移动图块
+    MoveBlock(movex, movey);
+    //保存当前偏移值
+    canvasoffsetx += movex;
+    canvasoffsety += movey;
+}
+
+//将地图移动到指定的偏移值 带动画
+function MoveMapAnimation(startMoveX, stopMoveX, startMoveY, stopMoveY) {
+
+     tox=startMoveX-stopMoveX;
+     toy=startMoveY-stopMoveY;
+     anix=tox/10;
+     aniy=toy/10;
+    var ccx=0;
+    var ccy=0;
+    stepx=0;
+    stepy=0;
+    //MoveMap(cx-anix*10,cy-aniy*10);
+    doAnimation();
+}
+var tox,toy;
+var anix;
+var aniy;
+var stepx=0,stepy=0;
+function doAnimation(){
+    setTimeout(function(){
+
+
+        if((tox-stepx)>anix)
+        {
+            stepx+=anix;
+            stepy+=aniy;
+            MoveMap(-anix,-aniy);
+            doAnimation();
+        }
+        else
+        {
+            MoveMap(-(tox-stepx),-(toy-stepy));
+        }
+    },300);
+}
 
 function GetZoom(zoomlevel) {
     return zoomarray[zoomlevel - 4];
@@ -270,11 +321,11 @@ function SetZoomAdd() {
         nowzoom++;
 
         var canvasheight = $("#canvas").css("height").replace("px", "");
-        var canvaswidth = $("#canvas").css("width").replace("px", "");;
+        var canvaswidth = $("#canvas").css("width").replace("px", "");
+        ;
 
         canvasoffsetx = parseInt(canvasoffsetx * 2 - canvaswidth / 2);
         canvasoffsety = parseInt(canvasoffsety * 2 - canvasheight / 2);
-
 
         ClearBlock();
         ReDraw();
@@ -285,7 +336,8 @@ function SetZoomMinus() {
     if (nowzoom > 4) {
         nowzoom--;
         var canvasheight = $("#canvas").css("height").replace("px", "");
-        var canvaswidth = $("#canvas").css("width").replace("px", "");;
+        var canvaswidth = $("#canvas").css("width").replace("px", "");
+        ;
         canvasoffsetx = parseInt((canvasoffsetx + canvaswidth / 2) / 2);
         canvasoffsety = parseInt((canvasoffsety + canvasheight / 2) / 2);
 
@@ -295,26 +347,21 @@ function SetZoomMinus() {
     }
 }
 
+//定位到指定的经纬度位置
 function tablocation() {
-    var Evalue = $("#txtE").val();
-    var Nvalue = $("#txtN").val();
-    //$("#txtE").val((-canvasoffsetx+300-rpxx)/rpxx*180);
-    //$("#txtN").val(-(-canvasoffsety+300-rpxy)/rpxy*180);
+    var Evalue = $("#txttabE").val();
+    var Nvalue = $("#txttabN").val();
 
-    $("#txtN").val(Math.acos(Evalue));
+    var canvaswidth = $("#canvas").css("width").replace("px", "");
+    var canvasheight = $("#canvas").css("height").replace("px", "");
 
-    //var zm=GetZoom(nowzoom);
-    //
-    //var rpxx = (zm.mx + 1) / 2 * blockSize;//每东西半球总像素点
-    //var rpxy = (zm.my + 1) / 2 * blockSize;//每南北半球总像素点
-    //if (Evalue > 0) {
-    //    canvasoffsetx =300- Evalue / 180 * rpxx - rpxx ;
-    //}
-    //if (Nvalue > 0) {
-    //    canvasoffsety = Nvalue / 90 * rpxy - rpxy + 300;
-    //}
-    //ClearBlock();
-    //ReDraw();
+    var ddddd = LongitudeToBlock(Evalue, nowzoom);
+
+    var x = (canvaswidth / 2) - (LongitudeToBlock(Evalue, nowzoom) * blockSize);
+    var y = (canvasheight / 2) - (LatitudeToBlock(Nvalue, nowzoom) * blockSize);
+
+    MoveMap(x - canvasoffsetx, y - canvasoffsety);
+    //MoveMapAnimation(canvasoffsetx,x,canvasoffsety,y);
 }
 
 
@@ -333,7 +380,20 @@ function SetCenterPoint(width, height) {
     ind1.css("margin-left", width / 2 - 9).css("margin-Top", height / 2);
 
     ind2.css("margin-left", width / 2);
-    ind2.css("margin-Top", height / 2-9);
+    ind2.css("margin-Top", height / 2 - 9);
 
 //.css("margin-Top", ind1.css("height").replace("px", "") + ind1.css("height").replace("px", "") / 2);
+}
+
+function OnWindowsSizeChanged() {
+    var canvasheight = $("#canvas").css("height").replace("px", "");
+    var canvaswidth = $("#canvas").css("width").replace("px", "");
+    ;
+
+    xblockcount = Math.floor(canvaswidth / blockSize) + 2;
+    yblockcount = Math.floor(canvasheight / blockSize) + 2;
+
+    //设置中心点
+    SetCenterPoint(canvaswidth, canvasheight);
+    ReDraw();
 }
