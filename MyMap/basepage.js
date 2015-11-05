@@ -97,22 +97,19 @@ function AddBlock(mx, my) {
             clonebb.css("width", blockSize);
             clonebb.css("height", blockSize);
             clonebb.find("#xy").text(x + " " + y);
-
             objCanvas.append(clonebb);
-
             SetBlockLocation(x, y, clonebb, 0, 0);
-
             SetBlockImg(clonebb, nowzoom);
-
         }
     }
 }
-
+//重绘
 function ReDraw() {
     objzoomlevel.val(nowzoom);
+    ClearBlock();
     AddBlock(xblockcount, yblockcount);
 }
-
+//清除所有图块
 function ClearBlock() {
     objCanvas.text("");
 }
