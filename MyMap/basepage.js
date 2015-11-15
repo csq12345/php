@@ -42,10 +42,10 @@ var zoomarray = new Array(
 
 //图片文件夹路径
 var picpath = new Array(
-    "D:/temp/googlepic/0",
-    "D:/temp/googlepic/1",
-    "D:/temp/googlepic/3",
-    "E:/temp/googlepic/"
+    "j:/temp/googlepic/0",
+    "j:/temp/googlepic/1",
+    "j:/temp/googlepic/3",
+    "j:/temp/googlepic/"
 );
 http://mt1.google.cn/vt?pb=!1m4!1m3!1i6!2i50!3i24!2m3!1e0!2sm!3i323238179!3m9!2szh-Hans-CN!3sCN!5e78!12m1!1e47!12m3!1e37!2m1!1ssmartmaps!4e0
 //初始化
@@ -351,6 +351,13 @@ function tablocation() {
 
     var canvaswidth = $("#canvas").css("width").replace("px", "");
     var canvasheight = $("#canvas").css("height").replace("px", "");
+
+    if(mt!=1){
+        var mars= transform(Nvalue,Evalue);
+        Nvalue=mars.mglat;
+        Evalue=mars.mglon;
+    }
+
 
     var ddddd = LongitudeToBlock(Evalue, nowzoom);
 
